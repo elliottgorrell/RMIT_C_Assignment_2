@@ -8,6 +8,8 @@
 #define VM_STOCK_H
 
 #include "vm_coin.h"
+#include "unistd.h"
+#include "vm_system.h"
 
 /**
  * The default stock level that all new stock should start with and the value
@@ -18,3 +20,6 @@
 #define STOCK_DELIM "|"
 
 #endif
+
+int loadStockData(char * fileLocation);
+Node * createNode(Stock * data);

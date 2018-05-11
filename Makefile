@@ -4,7 +4,7 @@ PROGRAM=vm
 DEBUG=-g
 FLAGS=-ansi -pedantic -Wall $(DEBUG)
 
-TEST_SOURCES=test/test.c
+TEST_SOURCES=test_main.c
 
 all:
 	gcc $(FLAGS) -o $(PROGRAM) $(SOURCES)
@@ -13,8 +13,10 @@ clean:
 	rm $(PROGRAM)
 
 archive:
-	zip $(USER)-a2 $(SOURCES) $(HEADERS) Makefile
+	zip $(USER)-a2 $(SOURCES) $(HEADERS) Makefile	
 
 run_tests:
-	gcc -lcmocka -o test_suite $(TEST_SOURCES)
+	gcc -g -ansi -pedantic -Wall -o vm_stock.o -c vm_stock.c
+	gcc -g -ansi -pedantic -Wall -o vm_system.o -c vm_system.c
+	gcc -g -lcmocka -o test_suite $(TEST_SOURCES) vm_stock.o vm_system.o
 	./test_suite
