@@ -99,7 +99,56 @@ void displayItems(VmSystem * system)
  * This function implements requirement 5 of the assignment specification.
  **/
 void purchaseItem(VmSystem * system)
-{ }
+{
+    char buffer[25];
+    char id[10];
+    unsigned int insertedMoney = 0;
+    Stock* item = NULL;
+    unsigned int requiredMoney;
+    unsigned int totalInsertedMoney = 0;
+
+    while (item == NULL){
+        printf("Please enter the id of the item you wish to purchase: ");
+        fgets(buffer,25,stdin);
+
+        if(strcspn(buffer, "\r\n") >= strlen(buffer)){
+            readRestOfLine();
+        }
+
+        strncpy(id, buffer, 10);
+
+        // Convert to null terminated string so getItemById strcmp() will work
+        id[strcspn(id, "\r\n")] = '\0';
+
+        item = getItemById(system, &id);
+    }
+
+    printf("You have selected \"%s\". This will cost you $%u.%u\n", item->desc, item->price.dollars, item->price.cents);
+    printf("Please hand over the money – type in the value of each note/coin in cents.\n");
+    printf("Press enter on a new and empty line to cancel this purchase:\n");
+
+    requiredMoney = (item->price.dollars*100) + (item->price.cents);
+    while (totalInsertedMoney < requiredMoney) {
+        printf("You still need to give us %u: ", (requiredMoney - totalInsertedMoney));
+        fgets(buffer,25,stdin);
+        if(strcspn(buffer, "\r\n") >= strlen(buffer)){
+            readRestOfLine();
+        }
+
+        char *chk;
+        insertedMoney = (int) strtol(buffer, &chk, 10);
+        if (!isspace(*chk) && *chk != 0)
+            printf("Not a valid amount of money\n", buffer);
+
+        totalInsertedMoney += insertedMoney;
+        insertedMoney = 0;
+    }
+
+    printf("Thank you. Here is your %s, and your change of %u.\n", item->name, (totalInsertedMoney - requiredMoney));
+    printf("Please come back soon.\n");
+
+
+}
 
 /**
  * You must save all data to the data files that were provided on the command

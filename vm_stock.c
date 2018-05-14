@@ -81,3 +81,16 @@ Boolean loadStockData(VmSystem* system, char* fileLocation)
 
     return TRUE;
 }
+
+Stock* getItemById(VmSystem* system, char* id) {
+    List* list = system->itemList;
+    Node* currentNode = list->head;
+
+    while(currentNode != NULL) {
+        if(strcmp(currentNode->data->id, id) == 0){
+            return currentNode->data;
+        }
+        currentNode = currentNode->next;
+    }
+    return NULL;
+}

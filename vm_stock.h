@@ -22,3 +22,4 @@
 #endif
 
 Boolean loadStockData(VmSystem* system , char* fileLocation);
+Stock* getItemById(VmSystem* system, char* id);

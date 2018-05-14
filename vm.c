@@ -10,7 +10,8 @@ int main(int argc, char ** argv)
 {
     Boolean running = TRUE;
     int choice = 0;
-    char buffer[5];
+    char buffer[2];
+    size_t length;
     VmSystem system;
 
     if(argc == 1) {
@@ -27,12 +28,26 @@ int main(int argc, char ** argv)
     while ( running ){
         displayMenu();
 
-        fgets(buffer,5,stdin);
+        fgets(buffer,2,stdin);
         sscanf(buffer, "%d", &choice);
+
+        if(strcspn(buffer, "\r\n") >= strlen(buffer)){
+            readRestOfLine();
+        }
 
         switch(choice){
             case 1:
                 displayItems(&system);
+                break;
+            case 2:
+                purchaseItem(&system);
+                break;
+            case 9:
+                exit(0);
+                break;
+            default:
+                printf("Invalid Choice!\n");
+                break;
         }
 
 
