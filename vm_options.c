@@ -89,7 +89,7 @@ void displayItems(VmSystem * system)
     for (int i=0; i < 60; i++) printf("-");
     printf("\n");
     while(currNode != NULL) {
-        printf(" %-8s| %-25s| %-15s| $%u.%u\n", currNode->data->id,currNode->data->name, currNode->data->onHand, currNode->data->price.dollars, currNode->data->price.cents);
+        printf(" %-8s| %-25s| %-15u| $%u.%u\n", currNode->data->id,currNode->data->name, currNode->data->onHand, currNode->data->price.dollars, currNode->data->price.cents);
         currNode = currNode->next;
     }
  }

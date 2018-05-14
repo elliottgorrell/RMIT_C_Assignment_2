@@ -68,6 +68,7 @@ Boolean loadStockData(VmSystem* system, char* fileLocation)
         strcpy( newItem->name,strtok(NULL, STOCK_DELIM) );
         strcpy( newItem->desc,strtok(NULL, STOCK_DELIM) );
         price = strtok(NULL, STOCK_DELIM);
+        newItem->onHand = (unsigned int)atoi( strtok(NULL, STOCK_DELIM) );
         newItem->price.dollars = (unsigned int)atoi( strtok(price, ".") );
         newItem->price.cents = (unsigned int)atoi( strtok(NULL, "") );
 
