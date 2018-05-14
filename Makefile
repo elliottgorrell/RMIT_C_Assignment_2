@@ -10,6 +10,10 @@ TEST_SOURCES=test_main.c
 all:
 	gcc $(FLAGS) -o $(BUILD_FOLDER)/$(PROGRAM) $(SOURCES)
 
+run:
+	gcc $(FLAGS) -o $(BUILD_FOLDER)/$(PROGRAM) $(SOURCES)
+	build/vm stock.dat
+
 clean:
 	rm -r $(BUILD_FOLDER)
 

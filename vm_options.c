@@ -36,10 +36,13 @@ void systemFree(VmSystem * system)
  * that the same files will be used for saving. A key part of this function is
  * validation. A substantial number of marks are allocated to this function.
  **/
-Boolean loadData(
-    VmSystem * system, const char * stockFileName, const char * coinsFileName)
+Boolean loadData(VmSystem * system, const char * stockFileName, const char * coinsFileName)
 {
-    return FALSE;
+    if ( !loadStockData(system, stockFileName) ){
+        printf("Error: Couldn't load stock");
+        return FALSE;
+    };
+    return TRUE;
 }
 
 /**
@@ -79,7 +82,17 @@ Boolean saveCoins(VmSystem * system)
  * This is the data loaded into the linked list in the requirement 2.
  **/
 void displayItems(VmSystem * system)
-{ }
+{
+    Node * currNode = system->itemList->head;
+
+    printf(" %-8s| %-25s| %-15s| %-10s\n", "ID", "Name", "Available", "Price");
+    for (int i=0; i < 60; i++) printf("-");
+    printf("\n");
+    while(currNode != NULL) {
+        printf(" %-8s| %-25s| %-15s| $%u.%u\n", currNode->data->id,currNode->data->name, currNode->data->onHand, currNode->data->price.dollars, currNode->data->price.cents);
+        currNode = currNode->next;
+    }
+ }
 
 /**
  * This option allows the user to purchase an item.

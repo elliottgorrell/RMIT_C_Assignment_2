@@ -8,17 +8,36 @@
 
 int main(int argc, char ** argv)
 {
+    Boolean running = TRUE;
+    int choice = 0;
+    char buffer[5];
+    VmSystem system;
+
     if(argc == 1) {
-        printf("you must provide a file to load\n");
+        printf("Error: You must provide a file to load\n");
+        return EXIT_FAILURE;
     }
     else if(argc > 2 ) {
-        printf("we only need one argument parsed\n");
+        printf("Error: You only need to provide one argument\n");
+        return EXIT_FAILURE;
     }
 
-    printf("you gave %i args\n",(argc-1));
-    printf("Goodbye. \n\n");
+    loadData(&system,argv[1],"blah");
+
+    while ( running ){
+        displayMenu();
+
+        fgets(buffer,5,stdin);
+        sscanf(buffer, "%d", &choice);
+
+        switch(choice){
+            case 1:
+                displayItems(&system);
+        }
 
 
+    }
 
     return EXIT_SUCCESS;
 }
+

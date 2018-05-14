@@ -21,5 +21,4 @@
 
 #endif
 
-int loadStockData(char * fileLocation);
-Node * createNode(Stock * data);
+Boolean loadStockData(VmSystem* system , char* fileLocation);

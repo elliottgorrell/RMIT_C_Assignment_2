@@ -11,12 +11,10 @@
  * create list, free list, create node, free node, insert node, etc...
  */
 
-extern int errno ;
-
-List createEmptyList(){
-    List newList;
-    newList.head = NULL;
-    newList.size = 0;
+List* createEmptyList(){
+    List* newList = (List*)malloc(sizeof(List));
+    newList->head = NULL;
+    newList->size = 0;
     return newList;
 }
 
@@ -49,18 +47,9 @@ void append(List* list, Stock* data)
     }
 }
 
-void printList(List* list)
+Boolean loadStockData(VmSystem* system, char* fileLocation)
 {
-    Node * currNode = list->head;
-    while(currNode != NULL) {
-        printf("%s|%s|%s|$%u.%u\n", currNode->data->id,currNode->data->name, currNode->data->desc, currNode->data->price.dollars, currNode->data->price.cents);
-        currNode = currNode->next;
-    }
-}
-
-int loadStockData(char * fileLocation)
-{
-    List list = createEmptyList();
+    List* list = createEmptyList();
     FILE *fp;
     char line[256];
 
@@ -70,8 +59,7 @@ int loadStockData(char * fileLocation)
     fp = fopen(fileLocation, "r");
 
     if (fp == NULL) {
-        perror("Error opening stock data: ");
-        return(-1);
+        return FALSE;
     }
 
     while ( fgets(line, sizeof(line), fp) ) {
@@ -83,12 +71,12 @@ int loadStockData(char * fileLocation)
         newItem->price.dollars = (unsigned int)atoi( strtok(price, ".") );
         newItem->price.cents = (unsigned int)atoi( strtok(NULL, "") );
 
-        append(&list, newItem);
+        append(list, newItem);
 
         counter++;
     }
 
-    printList(&list);
+    system->itemList = list;
 
-    return(0);
+    return TRUE;
 }

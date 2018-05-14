@@ -17,7 +17,9 @@
  * that will be called.
  **/
 void initMenu(MenuItem * menu)
-{ }
+{
+
+}
 
 /**
  * Gets input from the user and returns a pointer to the MenuFunction
@@ -27,4 +29,19 @@ void initMenu(MenuItem * menu)
 MenuFunction getMenuChoice(MenuItem * menu)
 {
     return NULL;
+}
+
+void displayMenu() {
+    printf("Main Menu:\n");
+    printf("1.Display Items\n");
+    printf("2.Purchase Items\n");
+    printf("3.Save and Exit\n");
+    printf("Administrator-Only Menu:\n");
+    printf("4.Add Item\n");
+    printf("5.Remove Item\n");
+    printf("6.Display Coins\n");
+    printf("7.Reset Stock\n");
+    printf("8.Reset Coins\n");
+    printf("9.Abort Program\n");
+    printf("Select your option (1-9):\n");
 }
