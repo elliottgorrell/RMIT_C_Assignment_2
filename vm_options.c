@@ -116,7 +116,7 @@ void purchaseItem(VmSystem * system)
         }
 
         if( buffer[0] == '\n') return;
-        
+
         strncpy(id, buffer, 10);
 
         // Convert to null terminated string so getItemById strcmp() will work
@@ -147,6 +147,8 @@ void purchaseItem(VmSystem * system)
         totalInsertedMoney += insertedMoney;
         insertedMoney = 0;
     }
+
+    decreaseStockCount(system, item);
 
     printf("Thank you. Here is your %s, and your change of %u.\n", item->name, (totalInsertedMoney - requiredMoney));
     printf("Please come back soon.\n");

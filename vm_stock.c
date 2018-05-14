@@ -94,3 +94,11 @@ Stock* getItemById(VmSystem* system, char* id) {
     }
     return NULL;
 }
+
+Boolean decreaseStockCount(VmSystem* system, Stock* item) {
+    if (item->onHand > 0){
+        item->onHand = item->onHand-1;
+        return TRUE;
+    }
+    return FALSE;
+}

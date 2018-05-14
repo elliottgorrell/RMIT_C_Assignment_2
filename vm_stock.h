@@ -23,3 +23,4 @@
 
 Boolean loadStockData(VmSystem* system , char* fileLocation);
 Stock* getItemById(VmSystem* system, char* id);
+Boolean decreaseStockCount(VmSystem* system, Stock* item);
