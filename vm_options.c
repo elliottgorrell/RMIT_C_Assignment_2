@@ -42,6 +42,8 @@ Boolean loadData(VmSystem * system, const char * stockFileName, const char * coi
         printf("Error: Couldn't load stock");
         return FALSE;
     };
+
+    system->stockFileName = stockFileName;
     return TRUE;
 }
 
@@ -66,6 +68,20 @@ Boolean loadCoins(VmSystem * system, const char * fileName)
  **/
 Boolean saveStock(VmSystem * system)
 {
+    FILE *fp;
+    Node* currentNode = system->itemList->head;
+    Stock* currentItem = NULL;
+    fp = fopen(system->stockFileName, "w");
+    if (fp == NULL) {
+        return FALSE;
+    }
+
+    while (currentNode != NULL) {
+        currentItem = currentNode->data;
+        fprintf(fp, "%s|%s|%s|%u.%02u|%u\n", currentItem->id, currentItem->name, currentItem->desc, currentItem->price.dollars, currentItem->price.cents, currentItem->onHand);
+        currentNode = currentNode -> next; 
+    }
+
     return FALSE;
 }
 
@@ -162,7 +178,10 @@ void purchaseItem(VmSystem * system)
  * This function implements requirement 6 of the assignment specification.
  **/
 void saveAndExit(VmSystem * system)
-{ }
+{
+    saveStock(system);
+    printf("Goodbye!\n");
+}
 
 /**
  * This option adds an item to the system. This function implements

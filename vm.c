@@ -42,8 +42,12 @@ int main(int argc, char ** argv)
             case 2:
                 purchaseItem(&system);
                 break;
+            case 3:
+                saveAndExit(&system);
+                running = FALSE;
+                break;
             case 9:
-                exit(0);
+                running = FALSE;
                 break;
             default:
                 printf("Invalid Choice!\n");
