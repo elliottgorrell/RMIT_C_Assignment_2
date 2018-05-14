@@ -115,6 +115,8 @@ void purchaseItem(VmSystem * system)
             readRestOfLine();
         }
 
+        if( buffer[0] == '\n') return;
+        
         strncpy(id, buffer, 10);
 
         // Convert to null terminated string so getItemById strcmp() will work
@@ -134,6 +136,8 @@ void purchaseItem(VmSystem * system)
         if(strcspn(buffer, "\r\n") >= strlen(buffer)){
             readRestOfLine();
         }
+
+        if( buffer[0] == '\n') return;
 
         char *chk;
         insertedMoney = (int) strtol(buffer, &chk, 10);
