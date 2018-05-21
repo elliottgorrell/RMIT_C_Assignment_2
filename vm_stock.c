@@ -126,7 +126,14 @@ Boolean decreaseStockCount(VmSystem* system, Stock* item) {
 Boolean deleteNode(List* list, Node* nodeToDelete) {
     Node * currNode = list->head;
 
-    while(currNode->next != NULL) {
+    /* First lets check if the node to delete is the head as we need to treat it differently */
+    if(currNode == nodeToDelete) {
+        list->head = nodeToDelete->next;
+        free(nodeToDelete);
+        return TRUE;
+    }
+
+    while(currNode != NULL) {
         if(currNode->next == nodeToDelete) {
             currNode->next = nodeToDelete->next;
             free(nodeToDelete);
