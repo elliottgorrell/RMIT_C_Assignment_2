@@ -188,7 +188,70 @@ void saveAndExit(VmSystem * system)
  * requirement 7 of of assignment specification.
  **/
 void addItem(VmSystem * system)
-{ }
+{
+    char buffer[256];
+    Stock* lastItem;
+    Stock * newItem = (Stock*)malloc(sizeof(Stock));
+    int nextId;
+    
+    lastItem = getLastItem(system);
+
+    /* Access array at pointer+1 so we skip the I in the id */
+    nextId = atoi(&lastItem->id[1])+1;
+    snprintf(newItem->id, 6, "I%0.4d", nextId);
+
+    printf("This new meal item will have the Item id of %s.\n", newItem->id);
+    
+    while (newItem->name[0] == 0) {
+        printf("Enter the item name: ");
+        fgets(buffer, NAME_LEN, stdin);
+
+        if( strcmp(buffer, "\n") == 0){
+            //Do nothing and ask for name again
+        }
+        else if(strcspn(buffer, "\r\n") >= strlen(buffer)) {
+            printf("Your item name must not exceed %d characters.\n", NAME_LEN);
+            readRestOfLine();
+        } else {
+            strncpy(newItem->name, buffer, NAME_LEN);
+            newItem->name[strcspn(newItem->name, "\n\r")] = 0;
+        }
+    }
+
+    while (newItem->desc[0] == 0) {
+        printf("Enter the item description: ");
+        fgets(buffer, DESC_LEN, stdin);
+
+        if( strcmp(buffer, "\n") == 0){
+            //Do nothing and ask for name again
+        }
+        else if(strcspn(buffer, "\r\n") >= strlen(buffer)) {
+            printf("Your description must not exceed %d characters.\n", DESC_LEN);
+            readRestOfLine();
+        } else {
+            strncpy(newItem->desc, buffer, DESC_LEN);
+            newItem->desc[strcspn(newItem->desc, "\n\r")] = 0;
+        }
+    }
+
+    while (newItem->price.cents == NULL) {
+        printf("Enter the item price: ");
+        fgets(buffer, 13, stdin);
+
+        if(strcspn(buffer, "\r\n") >= strlen(buffer)) {
+            printf("Your price must not exceed $99999999.99 \n");
+            readRestOfLine();
+        } else {
+            newItem->price.dollars = (unsigned int)atoi( strtok(buffer, "."));
+            newItem->price.cents = (unsigned int)atoi( strtok(NULL, ""));
+        }
+    }
+
+    newItem->onHand = DEFAULT_STOCK_LEVEL;
+
+    append(system->itemList, newItem);
+
+}
 
 /**
  * Remove an item from the system, including free'ing its memory.

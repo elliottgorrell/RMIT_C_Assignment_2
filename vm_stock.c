@@ -35,6 +35,16 @@ Node* getLastNode(Node* head)
         cursor = cursor->next;
     return cursor;
 }
+
+Stock* getLastItem(VmSystem* system)
+{
+    Node* lastNode;
+    Stock * lastItem;
+    lastNode = getLastNode(system->itemList->head);
+
+    lastItem = lastNode->data;
+    return lastItem;
+}
  
 void append(List* list, Stock* data)
 {

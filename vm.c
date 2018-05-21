@@ -46,6 +46,9 @@ int main(int argc, char ** argv)
                 saveAndExit(&system);
                 running = FALSE;
                 break;
+            case 4:
+                addItem(&system);
+                break;
             case 9:
                 running = FALSE;
                 break;
