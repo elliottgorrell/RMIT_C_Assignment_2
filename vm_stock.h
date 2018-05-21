@@ -23,5 +23,7 @@
 
 Boolean loadStockData(VmSystem* system , char* fileLocation);
 Stock* getItemById(VmSystem* system, char* id);
+Node* getNodeByItemId(VmSystem* system, char* id);
 Boolean decreaseStockCount(VmSystem* system, Stock* item);
 Stock* getLastItem(VmSystem* system);
+Boolean deleteNode(List* list, Node* nodeToDelete);

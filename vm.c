@@ -49,6 +49,9 @@ int main(int argc, char ** argv)
             case 4:
                 addItem(&system);
                 break;
+            case 5:
+                removeItem(&system);
+                break;
             case 9:
                 running = FALSE;
                 break;

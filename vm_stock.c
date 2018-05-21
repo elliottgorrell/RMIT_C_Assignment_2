@@ -93,12 +93,22 @@ Boolean loadStockData(VmSystem* system, char* fileLocation)
 }
 
 Stock* getItemById(VmSystem* system, char* id) {
+    Node * node;
+    node = getNodeByItemId(system, id);
+
+    if( node != NULL) {
+        return node->data;
+    }
+    return NULL;
+}
+
+Node* getNodeByItemId(VmSystem* system, char* id) {
     List* list = system->itemList;
     Node* currentNode = list->head;
 
     while(currentNode != NULL) {
         if(strcmp(currentNode->data->id, id) == 0){
-            return currentNode->data;
+            return currentNode;
         }
         currentNode = currentNode->next;
     }
@@ -109,6 +119,20 @@ Boolean decreaseStockCount(VmSystem* system, Stock* item) {
     if (item->onHand > 0){
         item->onHand = item->onHand-1;
         return TRUE;
+    }
+    return FALSE;
+}
+
+Boolean deleteNode(List* list, Node* nodeToDelete) {
+    Node * currNode = list->head;
+
+    while(currNode->next != NULL) {
+        if(currNode->next == nodeToDelete) {
+            currNode->next = nodeToDelete->next;
+            free(nodeToDelete);
+            return TRUE;
+        }
+        currNode = currNode->next;
     }
     return FALSE;
 }

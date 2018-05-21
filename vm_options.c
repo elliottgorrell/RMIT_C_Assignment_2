@@ -258,7 +258,30 @@ void addItem(VmSystem * system)
  * This function implements requirement 8 of the assignment specification.
  **/
 void removeItem(VmSystem * system)
-{ }
+{
+    char buffer[6];
+    Node * nodeToDelete = NULL;
+    Stock * itemToDelete = NULL;
+
+    while(nodeToDelete == NULL) {
+        printf("Enter the item id of the item to remove from the menu: ");
+        fgets(buffer, sizeof(buffer), stdin);
+
+        if(strcspn(buffer, "\r\n") >= strlen(buffer)) {
+            readRestOfLine();
+        }
+
+        nodeToDelete = getNodeByItemId(system, buffer);
+    }
+
+    if ( !deleteNode(system->itemList, nodeToDelete) ) {
+        printf("Something went wrong deleteing the item.");
+        return;
+    }
+
+    itemToDelete = nodeToDelete->data;
+    printf("\"%s - %s %s\" Has been removed from the system.\n", itemToDelete->id, itemToDelete->name, itemToDelete->desc);
+}
 
 /**
  * This option will require you to display the coins from lowest to highest
