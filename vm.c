@@ -11,7 +11,6 @@ int main(int argc, char ** argv)
     Boolean running = TRUE;
     int choice = 0;
     char buffer[2];
-    size_t length;
     VmSystem system;
 
     if(argc == 1) {
@@ -56,6 +55,7 @@ int main(int argc, char ** argv)
                 resetStock(&system);
                 break;
             case 9:
+                abortProgram(&system);
                 running = FALSE;
                 break;
             default:

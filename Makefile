@@ -7,7 +7,7 @@ BUILD_FOLDER=build
 
 TEST_SOURCES=test_main.c
 
-all:
+build:
 	gcc $(FLAGS) -o $(BUILD_FOLDER)/$(PROGRAM) $(SOURCES)
 
 run:
@@ -16,6 +16,9 @@ run:
 
 clean:
 	rm -r $(BUILD_FOLDER)
+
+leak_check:
+	valgrind --leak-check=full --show-reachable=yes build/vm stock.dat
 
 archive:
 	zip $(USER)-a2 $(SOURCES) $(HEADERS) Makefile	

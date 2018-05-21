@@ -100,9 +100,10 @@ Boolean saveCoins(VmSystem * system)
 void displayItems(VmSystem * system)
 {
     Node * currNode = system->itemList->head;
+    int i = 0;
 
     printf(" %-8s| %-25s| %-15s| %-10s\n", "ID", "Name", "Available", "Price");
-    for (int i=0; i < 60; i++) printf("-");
+    for (i=0; i < 60; i++) printf("-");
     printf("\n");
     while(currNode != NULL) {
         printf(" %-8s| %-25s| %-15u| $%u.%u\n", currNode->data->id,currNode->data->name, currNode->data->onHand, currNode->data->price.dollars, currNode->data->price.cents);
@@ -117,7 +118,8 @@ void displayItems(VmSystem * system)
 void purchaseItem(VmSystem * system)
 {
     char buffer[25];
-    char id[10];
+    char id[ID_LEN+1];
+    char* nonNumInput;
     unsigned int insertedMoney = 0;
     Stock* item = NULL;
     unsigned int requiredMoney;
@@ -133,12 +135,12 @@ void purchaseItem(VmSystem * system)
 
         if( buffer[0] == '\n') return;
 
-        strncpy(id, buffer, 10);
+        strncpy(id, buffer, sizeof(id));
 
-        // Convert to null terminated string so getItemById strcmp() will work
+        /* Convert to null terminated string so getItemById strcmp() will work */
         id[strcspn(id, "\r\n")] = '\0';
 
-        item = getItemById(system, &id);
+        item = getItemById(system, id);
     }
 
     printf("You have selected \"%s\". This will cost you $%u.%u\n", item->desc, item->price.dollars, item->price.cents);
@@ -155,12 +157,15 @@ void purchaseItem(VmSystem * system)
 
         if( buffer[0] == '\n') return;
 
-        char *chk;
-        insertedMoney = (int) strtol(buffer, &chk, 10);
-        if (!isspace(*chk) && *chk != 0)
-            printf("Not a valid amount of money\n", buffer);
 
-        totalInsertedMoney += insertedMoney;
+        insertedMoney = (int) strtol(buffer, &nonNumInput, 10);
+        if (!isspace(*nonNumInput) && *nonNumInput != 0) {
+            printf("Not a valid amount of money\n");
+        }
+        else {
+            totalInsertedMoney += insertedMoney;
+        }
+        
         insertedMoney = 0;
     }
 
@@ -207,7 +212,7 @@ void addItem(VmSystem * system)
         fgets(buffer, NAME_LEN, stdin);
 
         if( strcmp(buffer, "\n") == 0){
-            //Do nothing and ask for name again
+            /* Do nothing and ask for name again */
         }
         else if(strcspn(buffer, "\r\n") >= strlen(buffer)) {
             printf("Your item name must not exceed %d characters.\n", NAME_LEN);
@@ -223,7 +228,7 @@ void addItem(VmSystem * system)
         fgets(buffer, DESC_LEN, stdin);
 
         if( strcmp(buffer, "\n") == 0){
-            //Do nothing and ask for name again
+            /* Do nothing and ask for desc again */
         }
         else if(strcspn(buffer, "\r\n") >= strlen(buffer)) {
             printf("Your description must not exceed %d characters.\n", DESC_LEN);
@@ -234,7 +239,7 @@ void addItem(VmSystem * system)
         }
     }
 
-    while (newItem->price.cents == NULL) {
+    while (newItem->price.cents == 0) {
         printf("Enter the item price: ");
         fgets(buffer, 13, stdin);
 
@@ -249,7 +254,7 @@ void addItem(VmSystem * system)
 
     newItem->onHand = DEFAULT_STOCK_LEVEL;
 
-    append(system->itemList, newItem);
+    appendToList(system->itemList, newItem);
 
 }
 
@@ -323,4 +328,7 @@ void resetCoins(VmSystem * system)
  * This function implements requirement 10 of the assignment specification.
  **/
 void abortProgram(VmSystem * system)
-{ }
+{
+    printf("Goodbye!\n");
+    free(system);
+}

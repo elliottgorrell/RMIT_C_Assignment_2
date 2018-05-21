@@ -46,7 +46,7 @@ Stock* getLastItem(VmSystem* system)
     return lastItem;
 }
  
-void append(List* list, Stock* data)
+void appendToList(List* list, Stock* data)
 {
     if(list->head == NULL)
         list->head = create(data,NULL);
@@ -57,7 +57,7 @@ void append(List* list, Stock* data)
     }
 }
 
-Boolean loadStockData(VmSystem* system, char* fileLocation)
+Boolean loadStockData(VmSystem* system, const char* fileLocation)
 {
     List* list = createEmptyList();
     FILE *fp;
@@ -82,7 +82,7 @@ Boolean loadStockData(VmSystem* system, char* fileLocation)
         newItem->price.dollars = (unsigned int)atoi( strtok(price, ".") );
         newItem->price.cents = (unsigned int)atoi( strtok(NULL, "") );
 
-        append(list, newItem);
+        appendToList(list, newItem);
 
         counter++;
     }
@@ -92,7 +92,7 @@ Boolean loadStockData(VmSystem* system, char* fileLocation)
     return TRUE;
 }
 
-Stock* getItemById(VmSystem* system, char* id) {
+Stock* getItemById(VmSystem* system, char id[ID_LEN+1]) {
     Node * node;
     node = getNodeByItemId(system, id);
 
