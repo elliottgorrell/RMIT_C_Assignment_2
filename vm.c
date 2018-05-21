@@ -52,6 +52,9 @@ int main(int argc, char ** argv)
             case 5:
                 removeItem(&system);
                 break;
+            case 7:
+                resetStock(&system);
+                break;
             case 9:
                 running = FALSE;
                 break;

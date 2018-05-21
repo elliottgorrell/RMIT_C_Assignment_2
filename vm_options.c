@@ -299,7 +299,14 @@ void displayCoins(VmSystem * system)
  * This function implements requirement 9 of the assignment specification.
  **/
 void resetStock(VmSystem * system)
-{ }
+{
+    Node * currNode = system->itemList->head;
+
+    while(currNode != NULL) {
+        currNode->data->onHand = DEFAULT_STOCK_LEVEL;
+        currNode = currNode->next;
+    }
+}
 
 /**
  * This option will require you to iterate over every coin in the coin
